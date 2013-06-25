@@ -37,7 +37,7 @@ run the following command in git bash (it won't work in windows command prompt):
 
 3. Go to http://localhost:9001 to browse the documentation
 
-*All commands run in the Windows command prompt unless mentioned.*
+*All commands run in the Windows command prompt unless specified.*
 
 [make-win]: http://gnuwin32.sourceforge.net/packages/make.htm
 [jekyll-win]: http://www.madhur.co.in/blog/2011/09/01/runningjekyllwindows.html

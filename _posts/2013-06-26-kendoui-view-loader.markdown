@@ -6,26 +6,24 @@ categories: javascript kendoui
 ---
 
 {% highlight javascript %}
-;(function ($, kendo) {
-    window.kendoViewLoader = function (templatesUrl) {
-        var views = {};
-        
+; (function ($, kendo) {
+    this.kendoViewLoader = function (templatesUrl) {
+        var templates = {};
         return function (templateName, viewModel, callback) {
             var template;
-
-            if (views[templateName]) {
-                callback(views[templateName]);
+            function initView(templ) {
+                callback(new kendo.View(templ, viewModel));
+            }
+            if (template = templates[templateName]) {
+                initView(template);
             } else {
-                function initView(templ) {
-                    callback(views[templateName] = new kendo.View(templ, viewModel));
-                }
-
                 if (template = $('#' + templateName).html()) {
-                    initView(template);
+                    initView(templates[templateName] = template);
                 } else {
-                    $.get(templatesUrl + '/' + encodeURIComponent(templateName), function (data) {
-                        initView(data);
-                    });
+                    $.get(templatesUrl + '/' + 
+                        encodeURIComponent(templateName), function (data) {
+                            initView(templates[templateName] = data);
+                        });
                 }
             }
         };
@@ -35,26 +33,22 @@ categories: javascript kendoui
 $(function() {
     var layout = new kendo.Layout("layout-tmpl");
     var viewLoader = kendoViewLoader('http://www.test.com/template/load');
-
     var app = new kendo.Router({
         init: function() {
             layout.render("#container");
         }
     });
-
     app.route('/', function() {
         viewLoader('product-list', {}, function(view) {
             layout.showIn('#content', view);
         });
     });
-
     app.route('/details', function() {
         viewLoader('product-details', {}, function(view) {
             layout.showIn('#content', view);
         });
     });
-
     app.start();
 });
-{% highlight %}
+{% endhighlight %}
 

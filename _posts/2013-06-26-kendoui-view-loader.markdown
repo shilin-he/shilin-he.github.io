@@ -12,7 +12,7 @@ categories: javascript kendoui
         return function (templateName, viewModel, callback) {
             var template;
             function initView(templ) {
-                callback(new kendo.View(templ, viewModel));
+                callback(new kendo.View(templ, { model: viewModel }));
             }
             if (template = templates[templateName]) {
                 initView(template);
